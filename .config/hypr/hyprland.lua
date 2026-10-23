@@ -158,7 +158,7 @@ for _, mod in ipairs({ mainMod, alt }) do
     hl.bind(mod .. " + Return",      hl.dsp.exec_cmd(terminal))
     hl.bind(mod .. " + D",           hl.dsp.exec_cmd(menu))
     hl.bind(mod .. " + SHIFT + Q",   hl.dsp.window.close())
-    for i = 1, 5 do
+    for i = 1, 9 do
         hl.bind(mod .. " + " .. i,   hl.dsp.focus({ workspace = i }))
     end
 end
@@ -188,13 +188,15 @@ hl.bind(mainMod .. " + F",           hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + SHIFT + F",   hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + CTRL + SPACE",  hl.dsp.window.cycle_next())
 
-for i = 1, 5 do
+for i = 1, 9 do
     hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
 end
 
 hl.bind(mainMod .. " + SHIFT + C",   hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind(mainMod .. " + SHIFT + R",   hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind(mainMod .. " + SHIFT + E",   hl.dsp.exit())
+-- Freeze the Linux session; a touch, key press or reopening Termux:X11 wakes it
+hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(bin .. "lindroid-sleep"))
 
 -- mode "resize"
 hl.define_submap("resize", function ()

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Super+Shift+Escape: freeze this session (cgroup v2 freezer). create-disp stays up and wakes it on
+# the next touch or key press, or when Termux:X11 comes back to the front.
+G=/sys/fs/cgroup/lindroid
+[ -f /sys/fs/cgroup/cgroup.procs ] || { notify-send "Sleep unavailable" "Restart the session (linux restart)"; exit 1; }
+mkdir -p $G
+cd_pid=$(pidof create-disp)
+[ -n "$cd_pid" ] && echo "$cd_pid" > /sys/fs/cgroup/cgroup.procs
+# Only processes whose root is this chroot: compare the root directory itself, not its path
+me=$(stat -L -c %d:%i /)
+for p in /proc/[0-9]*; do
+    pid=${p#/proc/}
+    [ "$pid" = "$cd_pid" ] && continue
+    [ "$(stat -L -c %d:%i $p/root 2>/dev/null)" = "$me" ] || continue
+    echo "$pid" > $G/cgroup.procs 2>/dev/null
+done
+echo 1 > $G/cgroup.freeze
