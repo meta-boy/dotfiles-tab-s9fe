@@ -1,0 +1,34 @@
+# Colour scheme from the wallpaper: ~/.local/bin/wallpaper runs matugen on the chosen image,
+# which renders these templates; the wallpaper script then reloads each app.
+
+[config.custom_colors]
+# Terminal hues, pulled toward the wallpaper's source colour
+green   = "#a6e3a1"
+yellow  = "#f9e2af"
+blue    = "#89b4fa"
+magenta = "#f5c2e7"
+cyan    = "#94e2d5"
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/templates/hyprland.lua"
+output_path = "~/.config/hypr/colors.lua"
+
+[templates.rofi]
+input_path  = "~/.config/matugen/templates/rofi.rasi"
+output_path = "~/.config/rofi/colors.rasi"
+
+[templates.waybar]
+input_path  = "~/.config/matugen/templates/waybar.css"
+output_path = "~/.config/waybar/colors.css"
+
+[templates.mako]
+input_path  = "~/.config/matugen/templates/mako"
+output_path = "~/.config/mako/config"
+
+[templates.foot]
+input_path  = "~/.config/matugen/templates/foot.ini"
+output_path = "~/.config/foot/colors.ini"
+
+[templates.sequences]
+input_path  = "~/.config/matugen/templates/sequences"
+output_path = "~/.cache/wallpaper/sequences"

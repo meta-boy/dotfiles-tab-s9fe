@@ -1,0 +1,30 @@
+/* Catppuccin Mocha app launcher */
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 16px;
+}
+window {
+    background-color: rgba(30, 30, 46, 0.88);
+    border: 2px solid #cba6f7;
+    border-radius: 16px;
+}
+#outer-box { padding: 14px; }
+#input {
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    background-color: #313244;
+    color: #cdd6f4;
+}
+#input:focus { box-shadow: none; }
+#entry {
+    padding: 10px 12px;
+    border-radius: 12px;
+    /* Rows without an icon would otherwise be shorter */
+    min-height: 32px;
+}
+#img { min-width: 28px; min-height: 28px; }
+#entry:selected { background-color: #45475a; }
+#text { color: #cdd6f4; margin-left: 10px; }
+#entry:selected #text { color: #cba6f7; }

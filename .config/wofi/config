@@ -1,0 +1,12 @@
+# Fixed size: sizing by "lines" follows the visible rows, so it jumped while scrolling
+width=560
+height=480
+dynamic_lines=false
+columns=1
+prompt=Search
+allow_images=true
+image_size=28
+insensitive=true
+hide_scroll=true
+no_actions=true
+location=center

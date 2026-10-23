@@ -1,0 +1,15 @@
+/* Single-column list in the launcher's style: window switcher (Super+Tab), dmenu-style pickers */
+@import "config.rasi"
+
+window   { width: 560px; }
+mainbox  { children: [ inputbar, listview ]; }
+entry    { placeholder: "Filter"; }
+listview { columns: 1; lines: 9; spacing: 4px; }
+element  {
+    orientation: horizontal;
+    padding:     10px 14px;
+    spacing:     12px;
+    border-radius: 12px;
+}
+element-icon { size: 24px; }
+element-text { horizontal-align: 0; }

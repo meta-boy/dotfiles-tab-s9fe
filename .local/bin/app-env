@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run an app with a normal desktop environment. Hyprland needs libhybris (Android's Mali driver)
+# for itself, but apps cannot use it: Hyprland lacks the android_wlegl protocol libhybris clients
+# need. GL apps get Mesa's llvmpipe instead, drawing into shared memory.
+unset LD_PRELOAD LD_LIBRARY_PATH HYBRIS_PATCH_TLS HYBRIS_LD_LIBRARY_PATH HYBRIS_LINDROID_DRM_DEVICE \
+      GBM_BACKEND GBM_BACKENDS_PATH EGL_PLATFORM __EGL_VENDOR_LIBRARY_FILENAMES AQ_DRM_DEVICES LIBSEAT_BACKEND
+export LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe
+exec "$@"

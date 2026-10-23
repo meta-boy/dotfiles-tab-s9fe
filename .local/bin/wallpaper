@@ -1,0 +1,72 @@
+#!/bin/sh
+# Wallpaper and theme: awww draws the wallpaper, matugen derives a colour scheme from it and
+# rewrites the colour files Hyprland, waybar, rofi, mako and foot import (~/.config/matugen).
+#   wallpaper pick       rofi picker over ~/Wallpaper (Super+Shift+Space)
+#   wallpaper set FILE   apply FILE
+#   wallpaper restore    start awww with the last wallpaper (Hyprland start)
+dir=${WALLPAPER_DIR:-$HOME/Wallpaper}
+cache=${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper
+state=$cache/current
+mkdir -p "$cache/thumbs"
+
+start_daemon() {
+    awww query >/dev/null 2>&1 && return
+    setsid -f awww-daemon >/dev/null 2>&1
+    for _ in $(seq 50); do
+        awww query >/dev/null 2>&1 && return
+        sleep 0.1
+    done
+}
+
+# Terminals already open: recolour through OSC escapes (new foot windows read colors.ini).
+# timeout: a pty whose reader is stopped would block the write.
+recolour_terminals() {
+    seq=$(printf '%b' "$(cat "$cache/sequences")")
+    for t in /dev/pts/[0-9]*; do
+        [ -w "$t" ] && timeout 1 sh -c 'printf "%s" "$1" > "$2"' _ "$seq" "$t" 2>/dev/null &
+    done
+    wait
+}
+
+apply() {
+    img=$(realpath "$1") || exit 1
+    start_daemon
+    # Short fade: every frame is drawn on the CPU and copied into Termux:X11
+    awww img "$img" --transition-type fade --transition-duration 0.7 --transition-fps 30
+    printf '%s\n' "$img" > "$state"
+    matugen image "$img" --source-color-index 0 -q || { notify-send "matugen failed" "$img"; exit 1; }
+    hyprctl reload >/dev/null
+    pkill -USR2 -x waybar
+    makoctl reload
+    recolour_terminals
+}
+
+pick() {
+    pkill -x rofi && exit 0
+    current=$(cat "$state" 2>/dev/null)
+    list=$cache/list
+    : > "$list"
+    row=0 selected=0
+    for f in "$dir"/*; do
+        case "$f" in *.jpg|*.jpeg|*.png|*.webp|*.JPG|*.JPEG|*.PNG) ;; *) continue ;; esac
+        name=$(basename "$f")
+        thumb=$cache/thumbs/$name.png
+        [ "$thumb" -nt "$f" ] ||
+            magick "$f[0]" -thumbnail 480x300^ -gravity center -extent 480x300 "$thumb"
+        [ "$(realpath "$f")" = "$current" ] && selected=$row
+        printf '%s\0icon\037%s\n' "$name" "$thumb" >> "$list"
+        row=$((row + 1))
+    done
+    [ "$row" -gt 0 ] || { notify-send "No wallpapers" "Add images to $dir"; exit 1; }
+    choice=$(rofi -dmenu -i -p "Wallpaper" -selected-row "$selected" \
+                  -theme ~/.config/rofi/wallpaper.rasi < "$list")
+    [ -n "$choice" ] && apply "$dir/$choice"
+}
+
+case "$1" in
+    pick)    pick ;;
+    set)     apply "$2" ;;
+    restore) start_daemon
+             [ -f "$state" ] && awww img "$(cat "$state")" --transition-type none ;;
+    *)       echo "usage: wallpaper pick | set FILE | restore" >&2; exit 2 ;;
+esac

@@ -1,0 +1,8 @@
+/* Status menu under the bar's top-right button */
+@import "list.rasi"
+
+configuration { show-icons: false; }
+window   { width: 360px; location: north east; anchor: north east; x-offset: -12px; y-offset: 52px; }
+mainbox  { padding: 12px; children: [ listview ]; }
+listview { lines: 12; }
+element  { padding: 10px 14px; }

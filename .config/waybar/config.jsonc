@@ -1,0 +1,65 @@
+// The Debian Quickshell bar's items as floating Catppuccin Mocha pills, sized for touch
+{
+    "layer": "top",
+    "position": "top",
+    "height": 38,
+    "margin-top": 8,
+    "margin-left": 12,
+    "margin-right": 12,
+    "spacing": 8,
+    "reload_style_on_change": true,
+
+    "modules-left": ["custom/launcher", "hyprland/workspaces"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["group/stats", "custom/battery", "clock"],
+
+    "custom/launcher": {
+        "format": "󰣇",
+        "tooltip": false,
+        "on-click": "pkill -x rofi || rofi -show drun"
+    },
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "persistent-workspaces": { "*": 4 },
+        "on-click": "activate"
+    },
+
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 60,
+        "separate-outputs": true
+    },
+
+    "group/stats": {
+        "orientation": "horizontal",
+        "modules": ["cpu", "memory", "disk"]
+    },
+    "cpu": {
+        "format": "<span color='#89b4fa'>\uf2db</span>  {usage}%",
+        "interval": 3
+    },
+    "memory": {
+        "format": "<span color='#a6e3a1'>\uefc5</span>  {used:0.1f}G",
+        "interval": 3
+    },
+    "disk": {
+        "format": "<span color='#fab387'>\uf0a0</span>  {free}",
+        "path": "/",
+        "interval": 30
+    },
+
+    // The tablet's own battery, read straight from sysfs like the Quickshell bar
+    "custom/battery": {
+        "exec": "~/.config/waybar/scripts/battery.sh",
+        "return-type": "json",
+        "interval": 30,
+        "tooltip": true
+    },
+
+    "clock": {
+        "format": "{0:%I:%M %p}  <span color='#6c7086'>{0:%a %d %b}</span>",
+        "interval": 30,
+        "tooltip-format": "<tt>{calendar}</tt>"
+    }
+}

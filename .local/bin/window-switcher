@@ -1,0 +1,6 @@
+#!/bin/sh
+# Super+Tab: pick a window by title (i3 had rofi -show window)
+pkill -x rofi && exit 0
+choice=$(hyprctl clients -j | jq -r '.[] | select(.mapped) | "\(.address)\t[\(.workspace.name)] \(.class): \(.title)"' |
+         rofi -dmenu -i -p "Windows" -theme ~/.config/rofi/list.rasi -display-columns 2 -display-column-separator "\t" | cut -f1)
+[ -n "$choice" ] && hyprctl dispatch "hl.dsp.focus({ window = \"address:$choice\" })" >/dev/null

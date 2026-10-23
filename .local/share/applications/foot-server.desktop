@@ -1,0 +1,5 @@
+[Desktop Entry]
+# Hidden from the launcher (shadows /usr/share/applications)
+Type=Application
+Name=foot-server
+NoDisplay=true

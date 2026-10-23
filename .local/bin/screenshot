@@ -1,0 +1,10 @@
+#!/bin/sh
+# screenshot [region]: save to ~/Pictures/Screenshots, like the i3 Print bindings
+dir=~/Pictures/Screenshots; mkdir -p "$dir"
+f="$dir/hypr-$(date +%Y%m%d-%H%M%S).png"
+if [ "$1" = region ]; then
+    g=$(slurp) || exit 0
+    grim -g "$g" "$f"
+else
+    grim "$f"
+fi && notify-send "Screenshot saved" "$f"
