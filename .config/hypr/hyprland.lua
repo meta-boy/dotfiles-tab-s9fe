@@ -194,7 +194,8 @@ end
 
 hl.bind(mainMod .. " + SHIFT + C",   hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind(mainMod .. " + SHIFT + R",   hl.dsp.exec_cmd("hyprctl reload"))
-hl.bind(mainMod .. " + SHIFT + E",   hl.dsp.exit())
+-- i3 exit becomes a confirm menu: Sleep / Reload / Cancel (exiting would freeze Termux:X11)
+hl.bind(mainMod .. " + SHIFT + E",   hl.dsp.exec_cmd(app .. bin .. "power-menu"))
 -- Freeze the Linux session; a touch, key press or reopening Termux:X11 wakes it
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(bin .. "lindroid-sleep"))
 

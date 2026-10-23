@@ -7,6 +7,8 @@ These are the home-directory files of `root` in `/data/local/arch`.
 - **Hyprland:** `.config/hypr/hyprland.lua` (Lua config) uses i3-style keys:
   - Super+Return foot, Super+Space / Super+D the rofi launcher, Super+Tab the window switcher.
   - Super+Shift+Q close, Super+R resize mode, Super+BackSpace Android Back.
+  - Super+Shift+E opens a confirm menu (Sleep / Reload config / Cancel); Super+Shift+Escape sleeps at once.
+    Sleep freezes the session; a touch, key press or reopening Termux:X11 wakes it.
   - The output mode follows Termux:X11 through `$XDG_RUNTIME_DIR/lindroid-mode`.
 - **Colours:** `wallpaper` draws with `awww`, and `matugen` derives the scheme from the image.
   Templates in `.config/matugen/templates` write `colors.lua`, `colors.css`, `colors.rasi`, foot's

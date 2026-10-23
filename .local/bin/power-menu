@@ -1,0 +1,13 @@
+#!/bin/bash
+# Super+Shift+E: confirm before leaving the desktop. Exiting Hyprland would only leave Termux:X11 on a
+# frozen frame here; stop and restart live in Termux:X11 (Preferences -> Linux session).
+pkill -x rofi && exit 0
+sleep_item=$(printf "  Sleep")
+reload_item=$(printf "  Reload Hyprland config")
+cancel_item=$(printf "  Cancel")
+choice=$(printf "%s\n%s\n%s\n" "$sleep_item" "$reload_item" "$cancel_item" |
+         rofi -dmenu -i -p "Session" -theme ~/.config/rofi/list.rasi -theme-str "listview { lines: 3; }" -selected-row 0)
+case "$choice" in
+    "$sleep_item")  exec ~/.local/bin/lindroid-sleep ;;
+    "$reload_item") hyprctl reload >/dev/null ;;
+esac
